@@ -34,7 +34,7 @@ local function createFirework()
     part.Parent = workspace
 
     local firework = Instance.new("ParticleEmitter", part)
-    firework.Texture = "rbxassetid://243660364" -- sparkle
+    firework.Texture = "rbxassetid://96572099950938" -- sparkle
     firework.Rate = 50
     firework.Lifetime = NumberRange.new(1)
     firework.Speed = NumberRange.new(10)
@@ -243,5 +243,6 @@ Tabs.Main1:AddButton({
 	  loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))() 
   end
 })
+
 
 -- ... (các Tab + Button giữ nguyên như bạn viết)
