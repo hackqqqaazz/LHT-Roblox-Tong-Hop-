@@ -1,0 +1,247 @@
+--// Hiệu ứng chữ tương lai + pháo hoa
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local player = Players.LocalPlayer
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "YutaIntro"
+gui.IgnoreGuiInset = true
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
+
+local msg = Instance.new("TextLabel")
+msg.Parent = gui
+msg.AnchorPoint = Vector2.new(0.5, 0.5)
+msg.Position = UDim2.new(0.5, 0, 0.5, 0)
+msg.Size = UDim2.new(0, 600, 0, 120)
+msg.BackgroundTransparency = 1
+msg.Text = "⚡ LHT roblox ⚡"
+msg.TextColor3 = Color3.fromRGB(0, 255, 255)
+msg.Font = Enum.Font.GothamBlack
+msg.TextScaled = true
+msg.TextStrokeTransparency = 0
+msg.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+msg.TextTransparency = 1
+
+-- hiệu ứng pháo hoa nho nhỏ
+local function createFirework()
+    local part = Instance.new("Part")
+    part.Anchored = true
+    part.CanCollide = false
+    part.Size = Vector3.new(0.5,0.5,0.5)
+    part.Position = player.Character.HumanoidRootPart.Position + Vector3.new(math.random(-10,10), math.random(5,15), math.random(-10,10))
+    part.Transparency = 1
+    part.Parent = workspace
+
+    local firework = Instance.new("ParticleEmitter", part)
+    firework.Texture = "rbxassetid://243660364" -- sparkle
+    firework.Rate = 50
+    firework.Lifetime = NumberRange.new(1)
+    firework.Speed = NumberRange.new(10)
+    firework.SpreadAngle = Vector2.new(360,360)
+    firework.Color = ColorSequence.new(Color3.fromRGB(math.random(100,255), math.random(100,255), math.random(100,255)))
+    
+    game.Debris:AddItem(part,2)
+end
+
+-- 1. Hiện chữ
+local appear = TweenService:Create(msg, TweenInfo.new(1.5, Enum.EasingStyle.Quad), {
+    TextTransparency = 0
+})
+appear:Play()
+appear.Completed:Wait()
+
+-- 2. Đổi màu + pháo hoa trong 5 giây
+local startTime = tick()
+while tick() - startTime < 5 do
+    msg.TextColor3 = Color3.fromRGB(
+        math.random(0, 255),
+        math.random(180, 255),
+        math.random(200, 255)
+    )
+    createFirework()
+    task.wait(0.5)
+end
+
+-- 3. Biến mất
+local vanish = TweenService:Create(msg, TweenInfo.new(2, Enum.EasingStyle.Sine), {
+    TextTransparency = 1
+})
+vanish:Play()
+vanish.Completed:Wait()
+
+gui:Destroy()
+
+--// Sau Intro thì load UI chính
+local ScreenGui = Instance.new("ScreenGui")
+local ImageButton = Instance.new("ImageButton")
+local UICorner = Instance.new("UICorner")
+
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+ImageButton.Parent = ScreenGui
+ImageButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ImageButton.BorderSizePixel = 0
+ImageButton.Position = UDim2.new(0.10615778, 0, 0.16217947, 0)
+ImageButton.Size = UDim2.new(0, 40, 0, 40)
+ImageButton.Draggable = true
+ImageButton.Image = "http://www.roblox.com/asset/?id=96572099950938"
+
+UICorner.CornerRadius = UDim.new(1, 10) 
+UICorner.Parent = ImageButton
+
+ImageButton.MouseButton1Down:Connect(function()
+    game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.End, false, game)
+end)
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+repeat wait() until game:IsLoaded()
+local Window = Fluent:CreateWindow({
+    Title = "LHT Roblox Tổng Hợp",
+    SubTitle = "Blox Fruit",
+    TabWidth = 157,
+    Size = UDim2.fromOffset(450, 300),
+    Acrylic = true,
+    Theme = "Light  ",
+    MinimizeKey = Enum.KeyCode.End
+})
+local Tabs = {
+        Main0=Window:AddTab({ Title="Thông Tin" }),
+        Main1=Window:AddTab({ Title="Script Blox fruit" }),
+        Main2=Window:AddTab({ Title="Grow A Garden" }),
+}
+    Tabs.Main0:AddButton({
+    Title = "Discord",
+    Description = "Hiện tại chưa có ",
+    Callback = function()
+        setclipboard("Currently not available")
+    end
+})
+
+    Tabs.Main0:AddButton({
+    Title = "Youutuber",
+    Description = "LHT Roblox",
+    Callback = function()
+        setclipboard("https://www.youtube.com/@LHT.roblox1")
+    end
+})
+
+    Tabs.Main0:AddButton({
+    Title = "Youtuber",
+    Description = "LHT Roblox",
+    Callback = function()
+        setclipboard("https://www.youtube.com/@LHT.roblox1")
+    end
+})
+    
+    Tabs.Main1:AddButton({
+    Title="Redz Hub",
+    Description="",
+    Callback=function()
+	  local Settings = {
+  JoinTeam = "Pirates"; -- Pirates/Marines
+  Translator = true; -- true/false
+}
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/newredz/BloxFruits/refs/heads/main/Source.luau"))(Settings)
+  end
+})
+
+Tabs.Main1:AddButton({
+    Title="w-azure Hub",
+    Description="",
+    Callback=function()
+	  loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/85e904ae1ff30824c1aa007fc7324f8f.lua"))()
+  end
+})
+Tabs.Main1:AddButton({
+    Title="fix lag",
+    Description="",
+    Callback=function()
+	  loadstring(game:HttpGet("https://raw.githubusercontent.com/TurboLite/Script/main/FixLag.lua"))()
+  end
+})
+Tabs.Main1:AddButton({
+    Title="xero",
+    Description="",
+    Callback=function()
+	  getgenv().Team = "Marines"
+getgenv().Hide_Menu = false
+getgenv().Auto_Execute = false
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Xero2409/XeroHub/refs/heads/main/main.lua"))()
+  end
+})
+Tabs.Main1:AddButton({
+    Title="script hiru hub",
+    Description="",
+    Callback=function()
+	  repeat wait() until game:IsLoaded() and game.Players.LocalPlayer
+loadstring(game:HttpGet("https://raw.githubusercontent.com/LuaStupid/ExecuteGames/main/QuestGames.lua"))()
+  end
+})
+Tabs.Main1:AddButton({
+    Title="banana hub free",
+    Description="",
+    Callback=function()
+	  loadstring(game:HttpGet("https://raw.githubusercontent.com/kimprobloxdz/Banana-Free/refs/heads/main/Protected_5609200582002947.lua.txt"))()
+  end
+})
+Tabs.Main2:AddButton({
+    Title="nat hub",
+    Description="",
+    Callback=function()
+	  loadstring(game:HttpGet("https://get.nathub.xyz/loader"))()
+  end
+})
+Tabs.Main1:AddButton({
+    Title="cutay hub",
+    Description="",
+    Callback=function()
+	  loadstring(game:HttpGet('https://github.com/diemquy/CutTayHub/blob/main/Cuttayhubreal.lua'))()
+  end
+})
+Tabs.Main2:AddButton({
+    Title="speed hub",
+    Description="",
+    Callback=function()
+	  loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))() 
+  end
+})
+Tabs.Main2:AddButton({
+    Title="script ảo",
+    Description="",
+    Callback=function()
+	  loadstring(game:HttpGet("https://pastefy.app/XgLKMqtd/raw"))()
+  end
+})
+Tabs.Main2:AddButton({
+    Title="limid hub",
+    Description="",
+    Callback=function()
+	  loadstring(game:HttpGet("https://raw.githubusercontent.com/PanjuII/LimitHub/refs/heads/main/LimitHub_Luarmor_E.lua"))()
+  end
+})
+Tabs.Main2:AddButton({
+    Title="script no lag",
+    Description="",
+    Callback=function()
+	  loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/NoLag-id/No-Lag-HUB/refs/heads/main/Loader/LoaderV1.lua"))()
+  end
+})
+Tabs.Main2:AddButton({
+    Title="script taro",
+    Description="",
+    Callback=function()
+	  loadstring(game:HttpGet("https://raw.githubusercontent.com/gumanba/Scripts/main/GrowaGarden"))()
+  end
+})
+Tabs.Main1:AddButton({
+    Title="speed hub",
+    Description="",
+    Callback=function()
+	  loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))() 
+  end
+})
+
+-- ... (các Tab + Button giữ nguyên như bạn viết)
